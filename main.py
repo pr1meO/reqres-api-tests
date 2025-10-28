@@ -2,30 +2,32 @@
 Test ReqRes API
 '''
 
-import unittest
 import requests
 
-class TestApi(unittest.TestCase):
+class TestApi():
     '''
     TestApi
     '''
-    def setUp(self):
-        self.__api = "https://reqres.in/api"
-        self.__headers = {
+    def setup_method(self):
+        '''
+        Set Up
+        '''
+        self.api = "https://reqres.in/api"
+        self.headers = {
             "Content-Type": "application/json", 
             "x-api-key": "reqres-free-v1"
         }
-        self.__timeout = 10
-        self.__user_id = 2
+        self.timeout = 10
+        self.user_id = 2
 
     def test_get_user(self):
         '''
         Test GET HTTP-request
         '''
         res = requests.get(
-            f"{self.__api}/users/{self.__user_id}",
-            headers=self.__headers,
-            timeout=self.__timeout
+            f"{self.api}/users/{self.user_id}",
+            headers=self.headers,
+            timeout=self.timeout
         )
 
         assert res.status_code == 200, "The status code is not 200"
@@ -38,7 +40,7 @@ class TestApi(unittest.TestCase):
         for field in required_fields:
             assert field in user, f"The {field} field is missing"
 
-        assert user["id"] == self.__user_id, "Invalid user ID"
+        assert user["id"] == self.user_id, "Invalid user ID"
         assert "@" in user["email"], "Incorrect email address"
 
     def test_add_user(self):
@@ -51,10 +53,10 @@ class TestApi(unittest.TestCase):
         }
 
         res = requests.post(
-            f"{self.__api}/users",
+            f"{self.api}/users",
             json=body,
-            headers=self.__headers,
-            timeout=self.__timeout
+            headers=self.headers,
+            timeout=self.timeout
         )
 
         assert res.status_code == 201, "The status code is not 201"
@@ -80,10 +82,10 @@ class TestApi(unittest.TestCase):
         }
 
         res = requests.put(
-            f"{self.__api}/users/2",
+            f"{self.api}/users/2",
             json=body,
-            headers=self.__headers,
-            timeout=self.__timeout
+            headers=self.headers,
+            timeout=self.timeout
         )
 
         assert res.status_code == 200, "The status code is not 200"
